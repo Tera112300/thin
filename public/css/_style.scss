@@ -1,0 +1,210 @@
+@charset "utf-8";
+
+@import "mixin";
+/*=====================================================
+COMMON-LAYOUT
+======================================================*/
+
+
+
+
+
+
+
+
+
+
+
+.list_table_box {
+	position: relative;
+	overflow-x: auto;
+
+	box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.5);
+
+	table {
+		white-space: nowrap !important;
+	}
+}
+
+.list_table {
+	border-collapse: collapse;
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+
+	font-size: 16px;
+
+	tr {
+		background-color: #fff;
+	}
+
+	th,
+	td {
+		font-weight: normal;
+		text-align: left;
+		border-bottom: 1px solid #eee;
+		padding: 15px;
+	}
+
+	th {
+
+		background-color: #1c7cd5;
+		color: #fff;
+	}
+
+	tr {
+		text-align: center;
+		padding: 20px 0;
+		background-color: #fff;
+		color: #3a3a3a;
+	}
+
+	tr:hover {
+		background-color: #d4faff;
+	}
+}
+
+
+
+
+
+@media screen and (max-width:767px) {
+
+
+	.list_table {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width:480px) {
+	.list_table {
+		font-size: 13px;
+	}
+}
+
+
+
+
+/* その１  */
+.pager {
+	text-align: center;
+}
+
+.pager .pagination {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	letter-spacing: -.40em;
+	font-size: 15px;
+	border-radius: 5px;
+	line-height: 0;
+	border: 1px solid #dddddd;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.pager .pagination li {
+	padding: 0;
+	display: inline-block;
+	letter-spacing: normal;
+	background: #fff;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	position: relative;
+	border-right: 1px solid #dddddd;
+
+	&:last-child {
+		border-right: 0;
+	}
+}
+
+.pager .pagination li a,
+.pager .pagination li>span {
+	vertical-align: middle;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	display: table;
+	color: #1c7cd5;
+	text-decoration: none;
+	transition: 0.6s ease-in-out background, 0.6s ease-in-out color;
+}
+
+.pager .pagination li a>span,
+.pager .pagination li>span>span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+body:not(.mobile) .pager .pagination li a:hover,
+.pager .pagination li span.active {
+	color: #fff;
+	background: #1c7cd5;
+}
+
+.pager .pagination li span.no_link {
+	color: #6c757d;
+}
+
+.pager .pagination li .vpc767 {
+	display: table-cell !important;
+}
+
+.pager .pagination li .vsp767 {
+	display: none !important;
+}
+
+@media screen and (max-width:767px) {
+	.pager .pagination li {
+		display: none;
+	}
+
+	.pager .pagination li:first-child,
+	.pager .pagination li:last-child {
+		display: inline-block;
+	}
+
+	.pager .pagination {
+		border: 0px;
+	}
+
+	.pager .pagination li {
+		border-right: 0px;
+		margin-right: 10px;
+		width: 70px;
+	}
+
+	.pager .pagination li .vpc767 {
+		display: none !important;
+	}
+
+	.pager .pagination li .vsp767 {
+		display: table-cell !important;
+	}
+
+	.pager .pagination li a,
+	.pager .pagination li>span {
+		border: 1px solid #ddd;
+		border-radius: 15px;
+		padding: 10px 16px;
+	}
+
+	// .pager .pagination li:first-child .page-link::after,
+	// .pager .pagination li:first-child .page-link::after {
+	// 	content: "前へ";
+	// 	display: block;
+	// 	position: absolute;
+	// 	top: 50%;
+	// 	transform: translateX(50%);
+	// }
+
+	// .pager .pagination li:first-child .page-link>span {
+	// 	display: none;
+	// }
+}

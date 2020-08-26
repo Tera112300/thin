@@ -1,0 +1,55 @@
+  <!-- index番号ループ -->
+
+  <% var(index_for,1) %>
+  <div class="pager">
+    <ul class="pagination">
+
+
+      <% for(pages)%>
+      <!-- prevボタン -->
+      <% ifs(index_for,==,now) %>
+      <% if(index_for,==,1) %>
+      <li class="prev">
+        <span class="page-link no_link"><span class="vpc767">«</span><span class="vsp767">前へ</span></span>
+      </li>
+      <% /if %>
+      <% else %>
+      <% if(index_for,==,1) %>
+      <li class="next">
+        <a href="<?php app\link\Link::current_url(); ?>?page_id=<% plugin('pagination_prev',now) %>"
+          class="page-link"><span class="vpc767">«</span><span class="vsp767">前へ</span></a>
+      </li>
+
+      <% /if %>
+      <% /ifs %>
+
+      <!-- indexボタン -->
+
+      <% ifs(index_for,==,now) %>
+      <li><span class="page-link active"><span><% echo(index_for) %></span></span></li>
+      <% else %>
+      <li><a
+          href="<?php app\link\Link::current_url(); ?>?page_id=<% echo(index_for) %>"><span><% echo(index_for) %></span></a>
+      </li>
+      <% /ifs %>
+
+
+      <!-- nextボタン -->
+      <% ifs(index_for,==,now) %>
+      <% ifs(index_for,==,pages) %>
+      <li class="prev">
+        <span class="page-link no_link"><span class="vpc767">»</span><span class="vsp767">次へ</span></span>
+      </li>
+      <% /ifs %>
+      <% else %>
+      <% ifs(index_for,==,pages) %>
+      <li class="next">
+        <a href="<?php app\link\Link::current_url(); ?>?page_id=<% plugin('pagination_next',now) %>"
+          class="page-link"><span class="vpc767">»</span><span class="vsp767">次へ</span></a>
+      </li>
+      <% /ifs %>
+      <% /ifs %>
+      <% calc(index_for,+=,1) %>
+      <% /for %>
+    </ul>
+  </div>

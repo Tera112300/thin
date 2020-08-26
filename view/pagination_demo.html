@@ -1,0 +1,40 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <title>Thin</title>
+  <link rel="stylesheet" type="text/css" href="<?php app\link\Link::asset('css/common.css'); ?>">
+  <link rel="stylesheet" type="text/css" href="<?php app\link\Link::asset('css/home.css'); ?>">
+</head>
+
+<body>
+
+
+
+  <div id="wrap">
+    <div class="list_table_box mb30">
+      <table class="list_table">
+        <tr>
+          <th>名前</th>
+          <th>説明</th>
+          <th>作成日時</th>
+          <th>更新日時</th>
+        </tr>
+        <% each(disp_data) %>
+        <tr>
+          <td><% echo(disp_data/name) %></td>
+          <td><% echo(disp_data/description) %></td>
+          <td><% dval(disp_data/create_at,'Y年m月d日') %></td>
+          <td><% dval(disp_data/create_at,'Y年m月d日') %></td>
+        </tr>
+        <% /each %>
+      </table>
+    </div>
+
+    <% external('pagination.html') %>
+  </div>
+
+</body>
+
+</html>
