@@ -22,4 +22,9 @@ class Link
         //return (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"] . dirname($_SERVER['SCRIPT_NAME']) . $dirs;
         echo (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"] . dirname($_SERVER['SCRIPT_NAME']) . '/public/' . $dirs;
     }
+    public static function asset_ajax($dirs = '')
+    {
+        //return (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"] . dirname($_SERVER['SCRIPT_NAME']) . $dirs;
+        echo (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"] . '/public/' . $dirs;
+    }
 }

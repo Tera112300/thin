@@ -1,0 +1,365 @@
+<?php
+
+namespace lib\mylib;
+
+// use BadMethodCallException;
+// use RuntimeException;
+
+class Validation
+{
+    public $rule_set = [];
+    public $errors = [];
+    protected $missing_error_message = '該当するエラーメッセージが存在しません。';
+
+    protected $error_messages = [
+        'required_form' => ':labelは、必須です。',
+        'valid_email' => ':label は正しいメールアドレスの形式ではありません。',
+        'valid_tel' => ':label は正しい電話番号の形式ではありません。',
+        'valid_zip' => ':label は正しい郵便番号の形式ではありません。',
+        'valid_img' => ':label は正しい画像の形式ではありません。',
+        'valid_url' => ':label は有効なURLではありません。',
+        'valid_ip' => ':label は有効なIPアドレスではありません。',
+        'min_length' => ':label は:param文字以下で入力して下さい。',
+        'max_length' => ':label は :param文字以上で入力して下さい。',
+        'numeric_min' => ':label は :paramより小さい数値を入力して下さい。',
+        'numeric_max' => ':label は :paramより大きい数値を入力して下さい。',
+        'valid_kana' => ':label は半角で入力して下さい。',
+    ];
+    //バリデーションのルール設定
+    public function __construct($name = [])
+    {
+        $this->rule_set = $name;
+        return $this->rule_set;
+    }
+
+    //バリデーションのルール設定
+    // public function add($name)
+    // {
+    //     $this->rule_set = $name;
+    //     return $this->rule_set;
+    // }
+
+    //実行
+    public function run($params)
+    {
+        $this->rule_set = array_values($this->rule_set);
+        foreach ($this->rule_set as $key => $value) {
+            $is_find = false;
+        }
+    }
+
+    public function checkValidation($input_val = [])
+    {
+        for ($i = 0; $i < count($this->rule_set); $i++) {
+            $this->filterRule($this->rule_set[$i][0], $this->rule_set[$i][1], $input_val[$i]);
+        }
+    }
+
+    protected function filterRule($rule_name, $rule_label, $input_val)
+    {
+        //ここで値を取得
+        //配列から文字列に戻してチェック
+        $input_val = implode($input_val);
+        $input_box = $input_val;
+        if (preg_match('/:get/', $input_box)) {
+            $input_box = str_replace(':get', '', $input_box);
+            if (isset($_GET[$input_box])) {
+                $input_box = $_GET[$input_box];
+            }
+        } else {
+            if (isset($_POST[$input_box])) {
+                $input_box = $_POST[$input_box];
+            }
+        }
+        //ここで値を取得
+
+        $null_form = false;
+
+        if (preg_match('/null_form\|/', $rule_name)) {
+            // |はエスケープ
+            $rule_name = str_replace('null_form|', '', $rule_name);
+            $null_form = true;
+        }
+
+
+
+        $rule_name = explode("|", $rule_name);
+        foreach ($rule_name as $rule) {
+            if ($null_form == false) {
+                $this->filterRule_switch($input_box, $rule, $rule_label, $input_val);
+            }
+
+            if ($null_form == true && $this->NovalidationRequireForm($input_box)) {
+                // switch ($rule) {
+                //     case 'required_form':
+                //         if ($this->validationRequireForm($input_box)) {
+                //             $this->setError($rule, $rule_label, $input_val);
+                //         }
+                //         break;
+                //     case 'valid_email':
+                //         if ($this->validationValidEmail($input_box)) {
+                //             $this->setError($rule, $rule_label, $input_val);
+                //         }
+                //         break;
+                // }
+                $this->filterRule_switch($input_box, $rule, $rule_label, $input_val);
+            }
+
+
+
+
+            //echo $key;
+        }
+    }
+
+
+    public function filterRule_switch($input_box, $rule, $rule_label, $input_val)
+    {
+        //echo $input_box . '<br>';
+        //echo $rule;
+        switch ($rule) {
+            case 'required_form':
+                if ($this->validationRequireForm($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+            case 'valid_email':
+                if ($this->validationValidEmail($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+            case 'valid_tel':
+                if ($this->validationValidTel($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+
+            case 'valid_zip':
+                if ($this->validationValidZip($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+
+            case 'valid_img':
+                if ($this->validationValidImg($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+            case 'valid_url':
+                if ($this->validationValidUrl($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+            case 'valid_ip':
+                if ($this->validationValidIp($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+            case preg_match("/^min_length:[0-9]+$/", $rule) === 1:
+                $num = str_replace('min_length:', '', $rule);
+                //echo mb_strlen($input_box);
+                if ($this->validationMinLength($input_box, $num)) {
+                    $this->setError("min_length", $rule_label, $input_val, $num);
+                }
+                break;
+            case preg_match("/^max_length:[0-9]+$/", $rule) === 1:
+                $num = str_replace('max_length:', '', $rule);
+                if ($this->validationMaxLength($input_box, $num)) {
+                    $this->setError("max_length", $rule_label, $input_val, $num);
+                }
+                break;
+            case preg_match("/^numeric_min:[0-9]+$/", $rule) === 1:
+                $num = str_replace('numeric_min:', '', $rule);
+                //echo mb_strlen($input_box);
+                if ($this->validationNumericMin($input_box, $num)) {
+                    $this->setError("numeric_min", $rule_label, $input_val, $num);
+                }
+                break;
+            case preg_match("/^numeric_max:[0-9]+$/", $rule) === 1:
+                $num = str_replace('numeric_max:', '', $rule);
+                if ($this->validationNumericMax($input_box, $num)) {
+                    $this->setError("numeric_max", $rule_label, $input_val, $num);
+                }
+                break;
+            case 'valid_kana':
+                if ($this->validationKana($input_box)) {
+                    $this->setError($rule, $rule_label, $input_val);
+                }
+                break;
+        }
+    }
+
+
+    public function validationEmpty($val)
+    {
+        $decision_strlen = false;
+        if (empty($val)) {
+            $decision_strlen = true;
+        }
+
+        return $decision_strlen;
+    }
+
+    public function NovalidationEmpty($val)
+    {
+        $decision_strlen = true;
+        if (empty($val)) {
+            $decision_strlen = false;
+            //$decision_strlen = true;
+        }
+
+        return $decision_strlen;
+    }
+
+    public function validationRequireForm($input)
+    {
+        //$input get post スーパーグローバル変数
+        return $this->validationEmpty($input);
+    }
+    public function NovalidationRequireForm($input)
+    {
+        //$input get post スーパーグローバル変数
+        return $this->NovalidationEmpty($input);
+    }
+
+    public function validationValidEmail($input)
+    {
+        //メールアドレス判定
+        $pattern = "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/";
+        $decision = "";
+
+        if (preg_match($pattern, $input)) {
+            //メールアドレスが正しいとき時エラー表示しない
+            $decision = false;
+        } else {
+            $decision = true;
+        }
+
+        return $decision;
+        //return filter_var($input, FILTER_VALIDATE_EMAIL);
+    }
+
+    public function validationValidTel($input)
+    {
+        //電話番号判定
+        $pattern = "/^(0{1}\d{1,4}-{0,1}\d{1,4}-{0,1}\d{4})$/";
+
+        $decision = "";
+
+        if (preg_match($pattern, $input)) {
+            //メールアドレスが正しいとき時エラー表示しない
+            $decision = false;
+        } else {
+            $decision = true;
+        }
+        return $decision;
+    }
+    public function validationValidZip($input)
+    {
+        //$zip = mb_convert_kana($input, 'a', 'utf-8');
+        $pattern01 = "/^\d{3}\-\d{4}$/";
+        $pattern02 = "/^\d{7}$/";
+        $decision = "";
+        if (preg_match($pattern01, $input) || preg_match($pattern02, $input)) {
+            $decision = false;
+        } else {
+            $decision = true;
+        }
+        return $decision;
+    }
+
+    public function validationValidUrl($input)
+    {
+        return !filter_var($input, FILTER_VALIDATE_URL);
+    }
+
+    public function validationValidIp($input)
+    {
+        return !filter_var($input, FILTER_VALIDATE_IP);
+    }
+
+    public function validationValidImg($input)
+    {
+        $pattern = "/\.gif$|\.png$|\.jpg$|\.jpeg$/i";
+
+        $decision = "";
+
+        if (preg_match($pattern, $input)) {
+            //画像が正しいとき時エラー表示しない
+            $decision = false;
+        } else {
+            $decision = true;
+        }
+        return $decision;
+    }
+
+    public function validationMinLength($input, $rule)
+    {
+        return mb_strlen($input) > $rule;
+    }
+
+    public function validationMaxLength($input, $rule)
+    {
+        return mb_strlen($input) < $rule;
+    }
+
+
+    public function validationNumericMin($input, $rule)
+    {
+        return $input > $rule;
+    }
+
+    public function validationNumericMax($input, $rule)
+    {
+        return $input < $rule;
+    }
+
+    public function validationKana($input)
+    {
+        $decision = "";
+        if ($input != mb_convert_kana($input, "ah", "UTF-8")) {
+            //半角ではない
+            $decision = true;
+        } else {
+            $decision = false;
+        }
+        return $decision;
+    }
+
+    protected function setError($rule_name, $rule_label, $input_val, $param = "")
+    {
+        $error_message = $this->error_messages[$rule_name];
+
+
+        //置換
+        $error_message = str_replace(':label', $rule_label, $error_message);
+        if (!empty($param)) {
+            // echo $param;
+            $error_message = str_replace(':param', $param, $error_message);
+        }
+        $this->errors[$input_val][] = $error_message;
+        //$old_val = $this->errors[$input_val];
+    }
+}
+
+
+
+//$test = new Validation([['required_form', '名前'], ['null_form|min_length:16', 'メール']]);
+$test = new Validation([['required_form', '名前'], ['valid_kana', 'メール']]);
+//print_r($test->rule_set);
+$test->checkValidation([["test01"], ["test02"]]);
+
+print_r($test->errors);
+//echo $test->errors[0];
+?>
+<form action="http://localhost/thin/lib/mylib/Validation.php" method="post">
+    <p>
+        名前：<input type="text" name="test01" size="40">
+    </p>
+    <p>
+        メール：<input type="text" name="test02" size="40">
+    </p>
+    <p>
+        <input type="submit" value="送信">
+    </p>
+</form>

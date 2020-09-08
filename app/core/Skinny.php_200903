@@ -66,7 +66,7 @@ $skConf['TEMPLATE']['BASEDIR'] = __DIR__ . '/../../view/template';         // �
 
 // キャッシュ関連
 $skConf['CACHE']['FLG']       = false;      // スキンキャッシュの利用    [true]:する  false:しない
-$skConf['CACHE']['DIR']       = __DIR__ . '/cache';  // キャッシュの生成先DIR （出来ればフルパスで。相対だとアチコチに作られるかも）
+$skConf['CACHE']['DIR']       = './cache';  // キャッシュの生成先DIR （出来ればフルパスで。相対だとアチコチに作られるかも）
 $skConf['CACHE']['ALIVETIME'] = 3600;       // キャッシュの有効時間（秒）
 
 // 画面表示関連
@@ -92,7 +92,7 @@ $skConf['SKINNY']['CLOSETAG'] = '%>';       // Skinnyのクローズタグ文字
 $skConf['SKINNY']['MAILAT']   = ' [AT] ';   // mail修飾子利用時に、'@'を置き換える文字(列)   default: [AT] 
 $skConf['SKINNY']['MAILDOT']  = ' [DOT] ';  // mail修飾子利用時に、'.'を置き換える文字(列)   default: [DOT] 
 
-$skConf['EXTERNAL_CALLBACK'] = true;       // タグの置換を永久に行うか（externalの連続呼び出しが可能になりますが永久ループにご注意ください）
+$skConf['EXTERNAL_CALLBACK'] = false;       // タグの置換を永久に行うか（externalの連続呼び出しが可能になりますが永久ループにご注意ください）
 
 
 /*** 以下configは実験用 ***/
@@ -1356,7 +1356,7 @@ class Skinny
 	 */
 	public function SkinnyFetchHTML($tpl = null, $param = null, $tplcode = null)
 	{
-		$code = $this->_skReplacedCode(__DIR__ . "/../../view/tpl/" . $tpl, $param, $tplcode);
+		$code = $this->_skReplacedCode($tpl, $param, $tplcode);
 		@ob_end_clean();
 		@ob_start();
 		eval("?>" . $code);

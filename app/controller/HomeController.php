@@ -34,4 +34,13 @@ class HomeController extends Controller
 
         $Skinny->SkinnyDisplay("pagination_demo.html", $out);
     }
+
+    public function form()
+    {
+        global $Skinny;
+
+        //ページネーション
+
+        $Skinny->SkinnyDisplay("form.html");
+    }
 }

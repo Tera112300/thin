@@ -65,4 +65,30 @@ class Model
         $this->disp_data = array_slice($data, $start_no, $max, false);
         return $this;
     }
+
+    public function escape($s)
+    {
+        return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+    }
+
+    public function escape_each($target, $array_names)
+    {
+        $i = 0;
+        foreach ($target as $es) {
+            foreach ($array_names as $array_name) {
+                $target[$i][$array_name] = Model::query()->escape($es[$array_name]);
+            }
+            $i++;
+        }
+        return $target;
+    }
+
+    public function Array_FetchHtml($names, $parameter)
+    {
+        global $Skinny;
+        foreach ($names as $name) {
+            $spa_data = $Skinny->SkinnyFetchHTML($name . ".tpl", $parameter);
+            file_put_contents(__DIR__ . "/../../view/spa_template/" . $name . ".html", $spa_data);
+        }
+    }
 }
