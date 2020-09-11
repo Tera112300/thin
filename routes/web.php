@@ -14,3 +14,5 @@ Route::get('/thin/', 'HomeController@index');
 Route::get('/thin/pagination_demo', 'HomeController@pagination_demo');
 
 Route::get('/thin/form', 'HomeController@form');
+
+Route::get('/thin/form_mail', 'HomeController@form_mail');

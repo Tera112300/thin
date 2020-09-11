@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+}
+
+.ta_c {
+  text-align: center !important;
+}
+
+.wrap {
+  padding: 0 15px;
+}
+
+#thin_mail {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+  border-top: 3px #52619e solid;
+}
+#thin_mail .logo {
+  text-align: left;
+}
+#thin_mail .header th {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+#thin_mail .logo + th {
+  text-align: right;
+  font-size: 13px;
+  width: 175px;
+}
+#thin_mail .logo + th a {
+  letter-spacing: -0.4em;
+}
+#thin_mail .logo + th a span {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  letter-spacing: normal;
+  color: #A8B0B6;
+  line-height: 1;
+}
+#thin_mail .logo + th a img {
+  display: inline-block;
+  vertical-align: middle;
+  letter-spacing: normal;
+}
+#thin_mail tbody .information_title th {
+  color: #2d3867;
+  padding: 5px 10px;
+  line-height: 1.5;
+  border-top: 1px solid #2d3867;
+  text-align: center;
+  font-size: 15px;
+  border-bottom: 1px solid #2d3867;
+}
+#thin_mail tbody .sub_information_title .title {
+  border-left: 3px solid #2d3867;
+  text-align: left;
+  padding-left: 10px;
+  font-size: 15px;
+  margin: 0 0 15px;
+}
+#thin_mail tbody .sub_information_title .sub_text {
+  font-size: 13px;
+  text-align: left;
+  margin: 0 0 6px;
+  word-break: break-all;
+}
+#thin_mail .main_txt th {
+  background-color: #2d3867;
+  color: #fff;
+  text-align: right;
+  padding: 10px 10px;
+  font-size: 16px;
+}
+#thin_mail tfoot .sns th {
+  text-align: left;
+  font-size: 14px;
+  background-color: #52619e;
+  color: #fff;
+  padding: 10px;
+}
+#thin_mail tfoot .sns td {
+  text-align: center;
+  width: 144px;
+  letter-spacing: -0.4em;
+}
+#thin_mail tfoot .sns td a {
+  padding: 5px 0;
+  background-color: #3e4a7f;
+  display: inline-block;
+  letter-spacing: normal;
+  vertical-align: middle;
+  width: 50%;
+}
+#thin_mail tfoot .sns td a.last {
+  background-color: #2d3867;
+}
+#thin_mail tfoot .small_txt th {
+  font-size: 12px;
+  color: #A8B0B6;
+  text-align: left;
+}
+
+#thin_mail .main_txt th {
+  font-size: 15px;
+}
+
+#thin_mail tbody .information_title th {
+  font-size: 14px;
+}
+
+#thin_mail tbody .sub_information_title .title {
+  font-size: 14px;
+}
+
+#thin_mail tfoot .sns th {
+  font-size: 12px;
+}
+
+#thin_mail .logo + th {
+  font-size: 12px;
+}
+
+#thin_mail tbody .sub_information_title .sub_text {
+  font-size: 12px;
+}
+
+#thin_mail tfoot .small_txt th {
+  font-size: 10px;
+}

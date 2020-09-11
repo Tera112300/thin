@@ -1,0 +1,76 @@
+<?php
+// require_once '../../app/core/Skinny.php';
+
+namespace lib\mylib;
+// HTMLメール作成ライブラリ Skinnyテンプレートエンジン依存
+class Mail
+
+{
+    public $Skinny_mail;
+    public $mail_array = [
+        'from' => '',
+        'to' => '',
+        'subject' => '',
+        'body' => '',
+        'headers' => '',
+    ];
+    public $headers = "";
+
+    public function __construct()
+    {
+        global  $Skinny;
+        $this->Skinny_mail = $Skinny;
+    }
+    public function create_mail($from, $to, $subject, $body, $option = "")
+    {
+
+        mb_language("japanese"); //日本語に設定。
+        mb_internal_encoding("UTF-8"); //UTF-8に設定。
+        //headersいらない
+        $array_argument = [$from, $to, $subject, $body];
+        $n = 0;
+        foreach ($this->mail_array as $key => $mail) {
+            switch ($key) {
+                case 'headers':
+                    $this->headers .= 'MIME-Version: 1.0' . "\r\n";
+                    $this->headers .= 'Content-Type: text/html; charset=iso-2022-jp' . "\r\n";
+                    $this->headers .= 'Content-Transfer-Encoding: 7bit' . "\r\n";
+                    $this->headers .= "From: " . $from . "\r\n";
+                    $this->headers .= "Sender: " . $from . " \r\n";
+                    $this->headers .= $option;
+                    $this->mail_array[$key] = $this->headers;
+                    break;
+                default:
+                    $this->mail_array[$key] = $array_argument[$n];
+            }
+            $n++;
+        }
+
+        return $this->mail_array;
+
+        // $maildata =  $this->Skinny_mail->SkinnyFetchHTML($this->mail_array['body'], $this->mail_array);
+        // $maildata = mb_convert_encoding($maildata, 'iso-2022-jp', 'UTF-8');
+
+        // return $maildata;
+    }
+
+    public function option($from_mail, $from_name, $priority = "3")
+    {
+        $option = "";
+        $option .= "Return-Path: " . $from_mail . " \r\n";
+        $option .= "Reply-To: " . $from_mail . " \r\n";
+        $option .= "Organization: " . $from_name . " \r\n";
+        $option .= "X-Sender: " . $from_mail . " \r\n";
+        $option .= "X-Priority: " . $priority . "\r\n";
+        return $option;
+    }
+
+    public function send($mail_body)
+    {
+        if (mb_send_mail($this->mail_array['to'], $this->mail_array['subject'], $mail_body, $this->mail_array['headers'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
