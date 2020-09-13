@@ -6,7 +6,7 @@ namespace lib\mylib;
 class Mail
 
 {
-    public $Skinny_mail;
+    //public $Skinny_mail;
     public $mail_array = [
         'from' => '',
         'to' => '',
@@ -16,11 +16,11 @@ class Mail
     ];
     public $headers = "";
 
-    public function __construct()
-    {
-        global  $Skinny;
-        $this->Skinny_mail = $Skinny;
-    }
+    // public function __construct()
+    // {
+    //     global  $Skinny;
+    //     $this->Skinny_mail = $Skinny;
+    // }
     public function create_mail($from, $to, $subject, $body, $option = "")
     {
 

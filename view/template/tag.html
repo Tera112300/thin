@@ -1,0 +1,7 @@
+<ul class="tag_cloud">
+  <% keach(tag_count) %>
+  <li class="<% plugin('tag_class',tag_class,n) %>"><a href="#"><span class="ellipsis_tag"><% kecho(KEY) %></span><span
+        class="num"><% kecho(VAL) %></span></a></li>
+  <% calc(n,+=,1) %>
+  <% /keach %>
+</ul>

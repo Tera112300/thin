@@ -7,7 +7,10 @@ namespace app\controller;
 use app\model\Home;
 use app\link\Link;
 use lib\mylib\Mail;
-use \PDO;
+
+use lib\mylib\TagCloud;
+
+//use \PDO;
 
 class HomeController extends Controller
 {
@@ -70,5 +73,17 @@ class HomeController extends Controller
         $maildata =  $test->Skinny_mail->SkinnyFetchHTML($test->mail_array['body'], $out);
 
         $test->send($maildata);
+    }
+
+    public function tag_demo()
+    {
+        global $Skinny;
+        $out = array();
+        $tag = new TagCloud('tag');
+        $out['tag_class'] = $tag->getTagClass();
+        $out['tag_count'] = $tag->getCount();
+        $out['n'] = 0;
+        // print_r($test->getCount());
+        $Skinny->SkinnyDisplay("tag_demo.html", $out);
     }
 }

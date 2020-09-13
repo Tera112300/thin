@@ -1,0 +1,65 @@
+.tag_cloud {
+    letter-spacing: -.40em;
+    line-height: 1.3;
+
+    >li {
+        display: inline-block;
+        letter-spacing: normal;
+        vertical-align: top;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+
+        .ellipsis_tag {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .num {
+            margin-left: 5px;
+            background: #1c7cd5;
+            color: #fff;
+            text-align: center;
+            display: inline-block;
+            border-radius: 50%;
+            line-height: 25px;
+            width: 25px;
+            transition: color 0.6s ease-in-out, background 0.6s ease-in-out;
+        }
+
+        a {
+            display: block;
+            border: 1px solid #333;
+            border-radius: 3px;
+            padding: 6px 10px;
+            transition: color 0.6s ease-in-out, border 0.6s ease-in-out, background 0.6s ease-in-out;
+
+            &:hover {
+                border: 1px solid #1c7cd5;
+                color: #fff;
+                background: #1c7cd5;
+
+                .num {
+                    color: #1c7cd5;
+                    background: #fff;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:767px) {
+    .tag_cloud>li a {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
+    .tag_cloud>li .num {
+        width: 22px;
+        line-height: 22px;
+    }
+}
